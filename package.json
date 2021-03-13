@@ -1,8 +1,17 @@
 {
   "name": "vue-simpleselect",
   "version": "0.1.0",
-  "private": true,
-  "scripts": {
+  "description": "Everything you wish the HTML <select> element could do, wrapped up into a lightweight, extensible Vue component.",
+  "author": "Jakub <dev.zomerfeld.com>",
+  "homepage": "https://github.com/devzom/Vue-SimpleSelect",
+  "private": false,
+  "license": "MIT",
+  "prepare": "npm run build",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devzom/Vue-SimpleSelect"
+  }, 
+   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
@@ -12,12 +21,26 @@
     "vue": "^2.6.11"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-transform-runtime": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/runtime": "^7.4.2",
     "@vue/cli-plugin-eslint": "4.1.1",
     "@vue/cli-service": "4.1.1",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.0.1",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "vue-style-loader": "^4.1.2",
+    "node-sass": "^4.12.0",
+    "postcss-loader": "^3.0.0",
+    "postcss-scss": "^2.0.0",
+    "sass-loader": "^7.1.0",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1",
+    "webpack-merge": "^4.2.1"
+    
   },
   "eslintConfig": {
     "root": true,
@@ -43,6 +66,7 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "keywords": [],
-  "description": ""
+  "keywords": [
+    "vue-simpleselect", "vue custom select", "vue select dropdown"
+  ]
 }
