@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div>
-      <h4>Simple select component</h4>
-      <div>Value: {{ selectModel }}</div>
+      <h4>*Vue-SimpleSelect* component</h4>
+      <div>Value of selection: {{ selectModel }}</div>
     </div>
     <div class="col">
       <SimpleSelect @select-value="getSelectValue" />

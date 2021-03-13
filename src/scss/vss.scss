@@ -1,0 +1,94 @@
+.vss {
+    display: flex;
+    min-width: 140px;
+    flex-direction: column;
+
+    & &__options {
+        background-color: grey;
+        width: 100%;
+        color: #ffffff;
+        overflow: hidden;
+        transition: all 0.2s;
+        border-radius: 6px;
+        opacity: 0;
+        max-height: 0;
+        order: 1;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+            background: #b9b9b9;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: grey;
+        }
+
+        &::-webkit-scrollbar,
+        &::-webkit-scrollbar-thumb {
+            border-radius: 0 6px 6px 0;
+        }
+    }
+
+    & &__options {
+        padding-top: 2px;
+
+        &.vss__active {
+            max-height: 140px;
+            opacity: 1;
+            overflow-y: scroll;
+
+            & + .select__selected::after {
+                transform: rotateX(180deg);
+                top: -25px;
+
+                /* transition */
+                transition: all 0.3s;
+            }
+        }
+    }
+
+    &__selected {
+        background-color: grey;
+        color: #ffffff;
+        border-radius: 6px;
+        border: 1px solid rgb(88, 88, 88);
+        margin-bottom: 2px;
+        position: relative;
+        order: 0;
+
+        &::after {
+            content: "";
+            width: 0;
+            height: 100%;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 7px solid #ffffff;
+            position: absolute;
+            right: 10px;
+            top: 40%;
+
+            /* transition */
+            transition: all 0.3s;
+        }
+    }
+
+    &__option,
+    &__selected {
+        padding: 8px 20px;
+    }
+
+    &__option-input {
+        display: none;
+    }
+
+    &__option,
+    &__selected,
+    &__option-label,
+    &__option-input {
+        cursor: pointer;
+    }
+
+    &__option:hover {
+        background-color: #b8b8b8;
+    }
+}
