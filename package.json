@@ -10,8 +10,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/devzom/Vue-SimpleSelect"
-  }, 
-   "scripts": {
+  },
+  "scripts": {
     "dev": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -29,30 +29,37 @@
     "@vue/cli-plugin-eslint": "4.1.1",
     "@vue/cli-service": "4.1.1",
     "babel-eslint": "^10.0.3",
-    "eslint": "^6.7.2",
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^6.0.1",
-    "vue-template-compiler": "^2.6.11",
-    "vue-style-loader": "^4.1.2",
     "node-sass": "^4.12.0",
     "postcss-loader": "^3.0.0",
     "postcss-scss": "^2.0.0",
+    "prettier": "^2.2.1",
     "sass-loader": "^7.1.0",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.11",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
     "webpack-dev-server": "^3.2.1",
     "webpack-merge": "^4.2.1"
-    
   },
   "eslintConfig": {
     "root": true,
     "env": {
+      "browser": true,
+      "es6": true,
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
+      "plugin:vue/recommended",
+      "plugin:prettier/recommended"
     ],
-    "rules": {},
+    "plugins": ["prettier"],
+    "rules": {
+      "prettier/prettier": "error"
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }
@@ -68,6 +75,8 @@
     "not ie <= 8"
   ],
   "keywords": [
-    "vue-simpleselect", "vue custom select", "vue select dropdown"
+    "vue-simpleselect",
+    "vue custom select",
+    "vue select dropdown"
   ]
 }
