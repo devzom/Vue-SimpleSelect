@@ -1,0 +1,149 @@
+.vss {
+  position: relative;
+  display: flex;
+  min-width: 140px;
+  flex-direction: column;
+
+  @extend .vss-noselect;
+
+  & &__options {
+    background-color: grey;
+    width: 100%;
+    color: #ffffff;
+    overflow: hidden;
+    transition: all 0.2s;
+    border-radius: 6px;
+    opacity: 0;
+    max-height: 0;
+    order: 1;
+
+    &.vss__active {
+      width: 100%;
+      max-height: 140px;
+      opacity: 1;
+      overflow-y: scroll;
+
+      & + .vss__selected::after {
+        transform: rotateX(180deg);
+        top: -25px;
+
+        /* transition */
+        transition: all 0.3s;
+      }
+    }
+
+    &::-webkit-scrollbar {
+      width: 4px;
+      background: #b9b9b9;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: grey;
+    }
+
+    &::-webkit-scrollbar,
+    &::-webkit-scrollbar-thumb {
+      border-radius: 0 6px 6px 0;
+    }
+
+    &--shadow {
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 2px 2px rgba(0, 0, 0, 0.12),
+        0 4px 4px rgba(0, 0, 0, 0.12), 0 8px 8px rgba(0, 0, 0, 0.12),
+        0 16px 16px rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  &__selected {
+    background-color: grey;
+    color: #ffffff;
+    border-radius: 6px;
+    border: 1px solid rgb(88, 88, 88);
+    margin-bottom: 2px;
+    position: relative;
+    order: 0;
+
+    &::after {
+      content: "";
+      width: 0;
+      height: 100%;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 7px solid #ffffff;
+      position: absolute;
+      right: 6px;
+      top: 40%;
+
+      /* transition */
+      transition: all 0.3s;
+    }
+  }
+
+  &__option,
+  &__selected {
+    // disable text highligthing
+    @extend .vss-noselect;
+    padding: 8px 20px;
+  }
+
+  // hide the input type="radio" element
+  &__option-input {
+    display: none;
+  }
+
+  // set pointer for all selectable elements
+  &__option,
+  &__selected,
+  &__option-label,
+  &__option-input,
+  &__clear-button {
+    cursor: pointer;
+  }
+
+  //  hover over option in dropdown list
+  &__option:hover {
+    background-color: #b8b8b8;
+  }
+
+  /* state classes */
+  &--disabled {
+    .vss__selected {
+      cursor: not-allowed;
+      background-color: #b8b8b8;
+    }
+  }
+
+  &__floating-label {
+    font-size: 0.65rem;
+    position: absolute;
+    top: 1%;
+    left: 4%;
+    transition: ease-in s;
+  }
+
+  &__clear-button {
+    position: absolute;
+    right: 12%;
+    font-weight: bold;
+    padding: 10px 5px;
+
+    opacity: 50%;
+    transition: opacity 0.4s;
+
+    &:hover {
+      opacity: 100%;
+      transition: opacity 0.3s;
+      color: red;
+    }
+  }
+}
+
+// disable text-selection/highlighting
+.vss-noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}

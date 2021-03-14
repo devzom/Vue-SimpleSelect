@@ -1,34 +1,74 @@
 {
   "name": "vue-simpleselect",
   "version": "0.1.0",
-  "private": true,
+  "description": "Simplest custom <select/> component",
+  "author": "Jakub <dev.zomerfeld.com>",
+  "homepage": "https://github.com/devzom/Vue-SimpleSelect",
+  "private": false,
+  "license": "MIT",
+  "prepare": "npm run build",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devzom/Vue-SimpleSelect"
+  },
   "scripts": {
+    "dev": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lint-fix": "eslint --ext .js,.vue src --fix"
   },
   "dependencies": {
-    "@vue/cli-plugin-babel": "4.1.1",
+    "@vue/cli-plugin-babel": "4.5.11",
     "vue": "^2.6.11"
   },
   "devDependencies": {
-    "@vue/cli-plugin-eslint": "4.1.1",
-    "@vue/cli-service": "4.1.1",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.0.1",
-    "vue-template-compiler": "^2.6.11"
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-transform-runtime": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "@babel/runtime": "^7.4.2",
+    "@vue/cli-plugin-eslint": "4.5.11",
+    "@vue/cli-service": "4.5.11",
+    "babel-eslint": "^10.1.0",
+    "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-prettier-vue": "^2.1.1",
+    "eslint-plugin-vue": "^7.7.0",
+    "node-sass": "^4.12.0",
+    "postcss-loader": "^5.2.0",
+    "postcss-scss": "^3.0.5",
+    "prettier": "^2.2.1",
+    "sass-loader": "^10.0.1",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1",
+    "webpack-merge": "^5.7.3"
   },
   "eslintConfig": {
     "root": true,
     "env": {
+      "browser": true,
+      "es6": true,
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
+      "plugin:vue/recommended",
+      "eslint:recommended",
+      "plugin:prettier/recommended"
     ],
-    "rules": {},
+    "plugins": [],
+    "rules": {
+      "vue/component-name-in-template-casing": [
+        "error",
+        "PascalCase"
+      ]
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }
@@ -43,6 +83,9 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "keywords": [],
-  "description": ""
+  "keywords": [
+    "vue-simpleselect",
+    "vue custom select",
+    "vue select dropdown"
+  ]
 }

@@ -1,61 +1,168 @@
 <template>
-  <div class="select">
-    <div class="select__options">
+  <div
+    ref="vssSelect"
+    v-click-out="closeDropdown"
+    class="vss"
+    :class="{ 'vss--disabled': disabled }"
+  >
+    <div
+      ref="vssSelectOptions"
+      class="vss__options"
+      :class="{ vss__active: isOpen, 'vss__options--shadow': shadow }"
+      :aria-label="placeholder"
+      role="select"
+    >
       <div
         v-for="option in options"
-        @mousedown="selectOption"
         :key="option.text"
-        class="select__option"
+        ref="vssSelectOption"
+        class="vss__option"
+        role="option"
+        type="button"
+        @mousedown="selectOption"
       >
         <input
-          class="select__option-input"
+          :id="`option-${option.value}`"
+          class="vss__option-input"
           type="radio"
           :value="option.value"
-          :id="`option-${option.value}`"
+          :disabled="disabled"
           name="selectGroup"
         />
-
         {{ option.text }}
       </div>
     </div>
-    <div class="select__selected" @mousedown="toggleDropdown($event)">
-      {{ selected.text }}
+    <div
+      class="vss__selected"
+      type="button"
+      @mousedown="toggleDropdown($event)"
+    >
+      <span
+        v-show="selected.value && floatingPlaceholder"
+        class="vss__floating-label"
+        >{{ placeholder }}</span
+      >
+      <span class="vss__selected-label">
+        {{ selected.text ? selected.text : placeholder }}
+      </span>
     </div>
+    <span
+      v-show="selected.value && clearBtn"
+      class="vss__clear-button"
+      @click.prevent="clearSelection"
+      >X</span
+    >
   </div>
 </template>
 
 <script>
 export default {
   name: "SimpleSelect",
+  directives: {
+    "click-out": {
+      bind: function (el, binding, vnode) {
+        el.eventSetDrag = function () {
+          el.setAttribute("data-dragging", "yes");
+        };
+        el.eventClearDrag = function () {
+          el.removeAttribute("data-dragging");
+        };
+        el.eventOnClick = function (event) {
+          var dragging = el.getAttribute("data-dragging");
+          // Check that the click was outside the el and its children,  wasn't a drag
+          if (!(el == event.target || el.contains(event.target)) && !dragging) {
+            // call method provided in attribute value
+            vnode.context[binding.expression](event);
+          }
+        };
+        document.addEventListener("touchstart", el.eventClearDrag);
+        document.addEventListener("touchmove", el.eventSetDrag);
+        document.addEventListener("click", el.eventOnClick);
+        document.addEventListener("touchend", el.eventOnClick);
+      },
+      unbind: function (el) {
+        document.removeEventListener("touchstart", el.eventClearDrag);
+        document.removeEventListener("touchmove", el.eventSetDrag);
+        document.removeEventListener("click", el.eventOnClick);
+        document.removeEventListener("touchend", el.eventOnClick);
+        el.removeAttribute("data-dragging");
+      },
+    },
+  },
   props: {
     placeholder: {
       type: String,
       default: "Select option",
     },
+    emptyPlaceholder: {
+      type: String,
+      default: "No options",
+    },
     options: {
       type: Array,
-      default: () => [
-        { text: "Option 1", value: 1 },
-        { text: "Option 2", value: 2 },
-        { text: "Option 3", value: 3 },
-        { text: "Option 4", value: 4 },
-        { text: "Option 5", value: 5 },
-      ],
-      // required: true
+      default: () => [],
+      required: true,
+    },
+    /*
+     *  @Style - Show a shadow under the dropdown
+     */
+    shadow: {
+      type: Boolean,
+      default: true,
+    },
+    /*
+     *  @Style - Show floating placeholder text when selection is done
+     */
+    floatingPlaceholder: {
+      type: Boolean,
+      default: false,
+    },
+    /*
+     *  @Function - disable component
+     */
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    /*
+     *  @Function + @Style - Show clear button as 'x' to clear selected option
+     */
+    clearBtn: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
     return {
-      selected: { text: null, value: 0 },
+      selected: { text: null, value: null },
+      noOptions: false,
+      isOpen: false,
+      isClosed: true,
     };
   },
   created() {
-    if (!this.selected.text) this.selected.text = this.placeholder;
+    this.checkOptions();
   },
   methods: {
-    toggleDropdown(e) {
-      const selectOptions = document.querySelector(".select__options");
-      selectOptions.classList.toggle("select__active");
+    checkOptions() {
+      this.noOptions = this.options?.length === 0 || false;
+    },
+    setPlaceholder() {
+      if (this.noOptions) {
+        this.selected.text = this.emptyPlaceholder;
+        return;
+      }
+      this.selected.text = this.placeholder;
+    },
+    toggleDropdown() {
+      if (this.noOptions) return;
+      this.isOpen = !this.isOpen;
+
+      // for future use, handle the check if dropdown is closed
+      this.isClosed = !this.isClosed;
+    },
+    closeDropdown() {
+      if (this.isOpen) this.isOpen = false;
     },
     selectOption(option) {
       const optionValue = option.target.childNodes[0].value;
@@ -67,105 +174,23 @@ export default {
       this.toggleDropdown();
     },
     updateValue(value) {
-      this.$emit("select-value", value);
+      if (value) {
+        this.$emit("input", value);
+        return;
+      }
+    },
+    clearSelection() {
+      this.closeDropdown();
+      this.resetSelectedModel();
+      this.$emit("clear", null);
+    },
+    resetSelectedModel() {
+      this.selected = { text: null, value: null };
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.select {
-  display: flex;
-  min-width: 140px;
-  flex-direction: column;
-
-  & &__options {
-    background-color: grey;
-    width: 100%;
-    color: #ffffff;
-    overflow: hidden;
-    transition: all 0.2s;
-    border-radius: 6px;
-    opacity: 0;
-    max-height: 0;
-    order: 1;
-
-    &::-webkit-scrollbar {
-      width: 6px;
-      background: #b9b9b9;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: grey;
-    }
-
-    &::-webkit-scrollbar,
-    &::-webkit-scrollbar-thumb {
-      border-radius: 0 6px 6px 0;
-    }
-  }
-
-  & &__options {
-    padding-top: 2px;
-
-    &.select__active {
-      max-height: 140px;
-      opacity: 1;
-      overflow-y: scroll;
-
-      & + .select__selected::after {
-        transform: rotateX(180deg);
-        top: -25px;
-
-        /* transition */
-        transition: all 0.3s;
-      }
-    }
-  }
-
-  &__selected {
-    background-color: grey;
-    color: #ffffff;
-    border-radius: 6px;
-    border: 1px solid rgb(88, 88, 88);
-    margin-bottom: 2px;
-    position: relative;
-    order: 0;
-
-    &::after {
-      content: "";
-      width: 0;
-      height: 100%;
-      border-left: 7px solid transparent;
-      border-right: 7px solid transparent;
-      border-top: 7px solid #ffffff;
-      position: absolute;
-      right: 10px;
-      top: 40%;
-
-      /* transition */
-      transition: all 0.3s;
-    }
-  }
-
-  &__option,
-  &__selected {
-    padding: 8px 20px;
-  }
-
-  &__option-input {
-    display: none;
-  }
-
-  &__option,
-  &__selected,
-  &__option-label,
-  &__option-input {
-    cursor: pointer;
-  }
-
-  &__option:hover {
-    background-color: #b8b8b8;
-  }
-}
+@import "@/scss/vss.scss";
 </style>
