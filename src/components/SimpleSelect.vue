@@ -1,10 +1,12 @@
 <template>
   <div
     ref="vssSelect"
-    v-click-out="closeDropdown"
     class="vss"
     :class="{ 'vss--disabled': disabled }"
+    :tabindex="tabindex"
+    @blur="closeDropdown"
   >
+    <!-- Dropdown list with options -->
     <div
       ref="vssSelectOptions"
       class="vss__options"
@@ -12,6 +14,7 @@
       :aria-label="placeholder"
       role="select"
     >
+      <!-- Options -->
       <div
         v-for="option in options"
         :key="option.text"
@@ -31,70 +34,49 @@
         />
         {{ option.text }}
       </div>
+      <!-- /Options -->
     </div>
+    <!-- /Dropdown list with options -->
     <div
       class="vss__selected"
       type="button"
       @mousedown="toggleDropdown($event)"
     >
+      <!-- Floating label -->
       <span
         v-show="selected.value && floatingPlaceholder"
         class="vss__floating-label"
         >{{ placeholder }}</span
       >
+      <!-- /Floating label -->
+
+      <!-- Single label/ placeholder -->
       <span class="vss__selected-label">
         {{ selected.text ? selected.text : placeholder }}
       </span>
+      <!-- /Single label/ placeholder -->
     </div>
+
+    <!-- Clear button -->
     <span
       v-show="selected.value && clearBtn"
       class="vss__clear-button"
       @click.prevent="clearSelection"
       >X</span
     >
+    <!-- /Clear button -->
   </div>
 </template>
 
 <script>
 export default {
   name: "SimpleSelect",
-  directives: {
-    "click-out": {
-      bind: function (el, binding, vnode) {
-        el.eventSetDrag = function () {
-          el.setAttribute("data-dragging", "yes");
-        };
-        el.eventClearDrag = function () {
-          el.removeAttribute("data-dragging");
-        };
-        el.eventOnClick = function (event) {
-          var dragging = el.getAttribute("data-dragging");
-          // Check that the click was outside the el and its children,  wasn't a drag
-          if (!(el == event.target || el.contains(event.target)) && !dragging) {
-            // call method provided in attribute value
-            vnode.context[binding.expression](event);
-          }
-        };
-        document.addEventListener("touchstart", el.eventClearDrag);
-        document.addEventListener("touchmove", el.eventSetDrag);
-        document.addEventListener("click", el.eventOnClick);
-        document.addEventListener("touchend", el.eventOnClick);
-      },
-      unbind: function (el) {
-        document.removeEventListener("touchstart", el.eventClearDrag);
-        document.removeEventListener("touchmove", el.eventSetDrag);
-        document.removeEventListener("click", el.eventOnClick);
-        document.removeEventListener("touchend", el.eventOnClick);
-        el.removeAttribute("data-dragging");
-      },
-    },
-  },
   props: {
     placeholder: {
       type: String,
       default: "Select option",
     },
-    emptyPlaceholder: {
+    emptyText: {
       type: String,
       default: "No options",
     },
@@ -102,6 +84,11 @@ export default {
       type: Array,
       default: () => [],
       required: true,
+    },
+    tabindex: {
+      type: Number,
+      required: false,
+      default: 0,
     },
     /*
      *  @Style - Show a shadow under the dropdown
@@ -149,7 +136,7 @@ export default {
     },
     setPlaceholder() {
       if (this.noOptions) {
-        this.selected.text = this.emptyPlaceholder;
+        this.selected.text = this.emptyText;
         return;
       }
       this.selected.text = this.placeholder;
