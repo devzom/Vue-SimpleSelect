@@ -85,6 +85,8 @@ export default {
       default: () => [],
       required: true,
     },
+
+    /* The tabindex property allows our component to be focused, which in turn allows it to be blurred. The blur event closes our component when a user clicks outside of the component. */
     tabindex: {
       type: Number,
       required: false,
@@ -130,6 +132,9 @@ export default {
   created() {
     this.checkOptions();
   },
+  mounted() {
+    this.$emit("input", this.selected.value);
+  },
   methods: {
     checkOptions() {
       this.noOptions = this.options?.length === 0 || false;
@@ -141,16 +146,7 @@ export default {
       }
       this.selected.text = this.placeholder;
     },
-    toggleDropdown() {
-      if (this.noOptions) return;
-      this.isOpen = !this.isOpen;
 
-      // for future use, handle the check if dropdown is closed
-      this.isClosed = !this.isClosed;
-    },
-    closeDropdown() {
-      if (this.isOpen) this.isOpen = false;
-    },
     selectOption(option) {
       const optionValue = option.target.childNodes[0].value;
       const optionText = option.target.childNodes[1].data.trim();
@@ -160,19 +156,27 @@ export default {
       this.updateValue(optionValue);
       this.toggleDropdown();
     },
-    updateValue(value) {
-      if (value) {
-        this.$emit("input", value);
-        return;
-      }
+    updateValue(value = null) {
+      /* By emitting the selected option using the ‘input’ parameter, the parent component can react to changes. */
+      this.$emit("input", value);
     },
     clearSelection() {
       this.closeDropdown();
       this.resetSelectedModel();
-      this.$emit("clear", null);
     },
     resetSelectedModel() {
       this.selected = { text: null, value: null };
+      this.updateValue();
+    },
+    toggleDropdown() {
+      if (this.noOptions) return;
+      this.isOpen = !this.isOpen;
+
+      // for future use, handle the check if dropdown is closed
+      this.isClosed = !this.isClosed;
+    },
+    closeDropdown() {
+      if (this.isOpen) this.isOpen = false;
     },
   },
 };
