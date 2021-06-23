@@ -1,8 +1,6 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/vue-simpleselect/'
-    : '/',
-  devServer: {
-    disableHostCheck: true,
-  },
+	publicPath: process.env.NODE_ENV === "production" ? "/Vue-SimpleSelect/" : "",
+	devServer: {
+		disableHostCheck: true,
+	},
 };
