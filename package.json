@@ -1,6 +1,6 @@
 {
   "name": "vue-simpleselect",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Simplest custom <select/> component",
   "author": "Jakub <dev.zomerfeld.com>",
   "homepage": "https://github.com/devzom/Vue-SimpleSelect",
@@ -30,6 +30,7 @@
     "@vue/cli-plugin-eslint": "4.5.11",
     "@vue/cli-service": "4.5.11",
     "babel-eslint": "^10.1.0",
+    "browserslist": "^4.16.6",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "eslint": "^7.22.0",
@@ -79,9 +80,9 @@
     }
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
+    "defaults",
+    "not IE 11",
+    "maintained node versions"
   ],
   "keywords": [
     "vue-simpleselect",
