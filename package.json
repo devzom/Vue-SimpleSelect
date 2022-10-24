@@ -20,18 +20,18 @@
 		"deploy": "sh deploy.sh"
 	},
 	"dependencies": {
-		"@vue/cli-plugin-babel": "4.5.11",
-		"vue": "^2.6.12"
+		"@vue/cli-plugin-babel": "4.5.19",
+		"vue": "^2.6.14"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.13.10",
-		"@babel/plugin-transform-runtime": "^7.13.10",
-		"@babel/preset-env": "^7.13.10",
-		"@babel/runtime": "^7.13.10",
-		"@vue/cli-plugin-eslint": "4.5.11",
-		"@vue/cli-service": "4.5.11",
+		"@babel/core": "^7.19.6",
+		"@babel/plugin-transform-runtime": "^7.13.15",
+		"@babel/preset-env": "^7.13.15",
+		"@babel/runtime": "^7.13.17",
+		"@vue/cli-plugin-eslint": "4.5.19",
+		"@vue/cli-service": "4.5.19",
 		"babel-eslint": "^10.1.0",
-		"browserslist": "^4.16.6",
+		"browserslist": "^4.16.8",
 		"cross-env": "^7.0.3",
 		"dotenv": "^8.2.0",
 		"eslint": "^7.22.0",
@@ -40,16 +40,16 @@
 		"eslint-plugin-prettier": "^3.3.1",
 		"eslint-plugin-prettier-vue": "^2.1.1",
 		"eslint-plugin-vue": "^7.7.0",
-		"node-sass": "^5.0.0",
+		"sass": "^1.55.0",
 		"postcss-loader": "^5.2.0",
 		"postcss-scss": "^3.0.5",
 		"prettier": "^2.2.1",
 		"sass-loader": "^10.0.1",
 		"vue-style-loader": "^4.1.3",
-		"vue-template-compiler": "^2.6.12",
+		"vue-template-compiler": "^2.7.13",
 		"webpack": "^4.29.6",
-		"webpack-cli": "^3.3.0",
-		"webpack-dev-server": "^3.11.2",
+		"webpack-cli": "^3.3.12",
+		"webpack-dev-server": "^3.11.3",
 		"webpack-merge": "^5.7.3"
 	},
 	"eslintConfig": {
